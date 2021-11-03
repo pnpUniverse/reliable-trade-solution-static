@@ -1,0 +1,31 @@
+<section id="hero" class="d-flex align-items-center justify-content-center">
+  <div class="container" data-aos="fade-up">
+    <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
+      <div class="col-xl-6 col-lg-8">
+        <h1>Performance</h1>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="services" class="services container" *ngIf="performances && performances.length">
+    <div class="row">
+        <div class="col-md-6" style="padding-bottom: 1em;">
+            <div class="card">
+                <div class="card-header">
+                    Tracksheet
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover" *ngIf="performances">
+                        <tbody>
+                            <tr *ngFor="let performance of performances">
+                                <td *ngIf="performance.file_name">
+                                	<a [href]="performance.performance_file_path" style="color: black" [download]="performance.file_name">{{performance.file_name}}</a>
+                            	</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

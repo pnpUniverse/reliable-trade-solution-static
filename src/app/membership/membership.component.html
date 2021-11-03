@@ -1,0 +1,97 @@
+<section id="hero" class="d-flex align-items-center justify-content-center">
+  <div class="container" data-aos="fade-up">
+    <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
+      <div class="col-xl-6 col-lg-8">
+        <h1>Memberships</h1>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="services" class="services" *ngIf="memberships">
+    <div class="row">
+        <div class="col-md-6" style="padding-bottom: : 1em;" *ngFor="let membership of memberships">
+            <div class="card">
+                <div class="card-header">
+                    {{membership.service_name}}
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Membership Tenure</th>
+                                <th scope="col">Plan Price</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let service_details of membership.service_details_arr">
+                                <td *ngIf="service_details.service_price">{{service_details.service_tenure}}</td>
+                                <td *ngIf="service_details.service_price">{{service_details.currency_used}} {{service_details.service_price}}</td>
+                                <td *ngIf="service_details.service_price">
+                                    <button class="btn btn-success" (click)="handleModel(membership.service_name, service_details)">Pay Now</button>
+                                    <!-- <ngx-paypal *ngIf="payPalConfig+'_'+service_details.service_slug" [id]="service_details.service_slug" [config]="payPalConfig+'_'+service_details.service_slug"></ngx-paypal> -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- The Modal -->
+<div class="modal" id="paypalModal" [style.display]="showModal ? 'block' : 'none'">
+    <div class="modal-dialog" *ngIf="service_obj">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">{{service_obj.service_name}} -> {{service_obj.service_tenure}}</h4>
+                <button type="button" class="close" data-dismiss="modal" (click) = "hide()">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <form  class="contact">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="number" class="form-control" placeholder="Amount" [(ngModel)]="service_obj.service_price" [ngModelOptions]="{standalone: true}"/>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" [(ngModel)]="service_obj.currency_used" [ngModelOptions]="{standalone: true}">
+                            <option value="">Select Currency</option>
+                            <option value="SGD">SGD</option>
+                            <option value="USD">USD</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <div class="text-center">
+                        <!-- <ngx-paypal *ngIf="usdPayPalConfig" #payPalElem1 [config]="usdPayPalConfig"></ngx-paypal> -->
+                        <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+                        <!-- <div class="row col-md-12 align-items-center justify-content-center">  
+                            <div class="col">
+                                <select id="ddlplan" [(ngModel)]="planId">  
+                                    <option value="">Select Plan </option>  
+                                    <option value="P-20D52460DL479523BLV56M5Y">SINGLE DEVICE MONTHLY </option>  
+                                    <option value="P-69V0714408520914GLVT2OWY">SINGLE DEVICE QUARTERLY</option>  
+                                    <option value="P-05879618SP259004GLVT2RQY">SINGLE DEVICE HALFYEARLY</option>  
+                                    <option value="P-4GG19360L3165531MLVT2T3Q">SINGLE DEVICE YEARLY</option>  
+                                    <option value="P-7EY82590S1568242RLVT2WCI">MULTIPLE DEVICE MONTHLY</option>  
+                                    <option value="P-41W43904VD877272YLVT2X4I">MULTIPLE DEVICE QUARTERLY</option>  
+                                    <option value="P-56995822K5295852ELVT2ZMA">MULTIPLE DEVICE HALFYEARLY</option>  
+                                    <option value="P-6LF21374AM914681BLVT22OY">MULTIPLE DEVICE YEARLY</option>  
+                                    <option value="P-3NS34795KB814132ALVTDMKI">Test Daily Plan</option>  
+                                </select>
+                            </div>  
+                            <div class="col">  
+                                <div #paypal></div>  
+                            </div>
+                        </div> -->
+                      <!-- <button type="submit" class="btn" style="background: #071527; cursor: pointer; color: #ffffff">Request For Free Trial</button> -->
+                    </div>
+                    <!-- <button type="button" class="btn btn-danger" data-dismiss="modal" (click) = "hide()">Close</button> -->
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
